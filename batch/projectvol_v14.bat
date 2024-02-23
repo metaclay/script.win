@@ -7,6 +7,7 @@ set EXT=0
 
 set ASK=
 set CONFIRM=
+set MOUNT_TO_DESKTOP=0
 
 set IPADDRS=192.168.1.10 192.168.1.20
 set PROJECTVOL=Z:
@@ -401,12 +402,16 @@ if  exist %PROJECTVOL% (
 
 
 REM mount z:/projectvol to desktop
-REM if  exist %HOME_LOCAL%\Desktop\PROJECTVOL (
-REM   echo remove folder - %HOME_LOCAL%\Desktop\PROJECTVOL
-REM   rmdir %HOME_LOCAL%\Desktop\PROJECTVOL || goto :ERR
-REM ) else (
-REM   echo not exist - %HOME_LOCAL%\Desktop\PROJECTVOL
-REM )
+
+if %MOUNT_TO_DESKTOP% == 1 (
+    if  exist %HOME_LOCAL%\Desktop\PROJECTVOL (
+      echo remove folder - %HOME_LOCAL%\Desktop\PROJECTVOL
+      rmdir %HOME_LOCAL%\Desktop\PROJECTVOL || goto :ERR
+    ) else (
+      echo not exist - %HOME_LOCAL%\Desktop\PROJECTVOL
+    )
+)
+
 
 
 
@@ -433,8 +438,10 @@ subst %PROJECTVOL% !PROJECTVOL_SRC!  || goto :ERR
 echo.
 REM label %PROJECTVOL% PROJECTVOL
 
-REM echo create Desktop symlink : mklink /D %HOME_LOCAL%\Desktop\PROJECTVOL !PROJECTVOL_SRC!
-REM mklink /D %HOME_LOCAL%\Desktop\PROJECTVOL !PROJECTVOL_SRC!  || goto :ERR
+if %MOUNT_TO_DESKTOP% == 1 (
+    echo create Desktop symlink : mklink /D %HOME_LOCAL%\Desktop\PROJECTVOL !PROJECTVOL_SRC!
+    mklink /D %HOME_LOCAL%\Desktop\PROJECTVOL !PROJECTVOL_SRC!  || goto :ERR
+)
 echo.
 echo.
 echo.
