@@ -80,7 +80,7 @@ echo ================
 
 set /a "LAN=!LAN_PROJECT!+!LAN_CLAYNET!"
 
-if !EXT! == 1 ( set DRIVE_MODE=EXT) else ( set DRIVE_MODE=LOCAL)
+if !EXT! == 1 ( set DRIVE_MODE=EXT) else ( set DRIVE_MODE=NO_EXT)
 
 
 echo | set /p=MODE : !DRIVE_MODE! 
@@ -100,7 +100,7 @@ if !EXT! == 1 (
   if not exist %EXT_DRIVE% (
     echo ^>^>^>^>^>^> ERROR - EXT : %EXT_DRIVE%\ DOES NOT AVAILABLE.
     echo.
-    set /p USELOCAL="Use local ? "
+    set /p USELOCAL="Use Internal Drive ? "
     if "!USELOCAL!" equ "" (
       set EXT=0
       goto :HEADER
@@ -431,9 +431,6 @@ echo.
 echo.
 
 echo ------------------------------------------------------------------------
-if !DRIVE_MODE! == "LOCAL" (
-  set DRIVE_MODE="NO EXT"
-) 
 
 echo | set /p=".     RESULT : !DRIVE_MODE! "
 
